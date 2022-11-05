@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MakeAccount">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Create an Account"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/CAname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/CAname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="256dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="Username or Email"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/CAemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/border"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/CAname"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/CAname"
+        app:layout_constraintTop_toBottomOf="@+id/CAname" />
+
+    <EditText
+        android:id="@+id/CApassword1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/border"
+
+        android:ems="10"
+
+        android:hint="Password"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/CAemail"
+        app:layout_constraintTop_toBottomOf="@+id/CAemail" />
+
+
+    <EditText
+        android:id="@+id/CApassword2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+
+        android:background="@drawable/border"
+
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/CApassword1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/CApassword1"
+        app:layout_constraintTop_toBottomOf="@+id/CApassword1" />
+
+    <Button
+        android:id="@+id/CASubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="96dp"
+        android:text="Create Account"
+        app:layout_constraintEnd_toEndOf="@+id/CApassword2"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="@+id/CApassword2"
+        app:layout_constraintTop_toBottomOf="@+id/CApassword2" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
