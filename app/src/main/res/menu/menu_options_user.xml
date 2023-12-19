@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:id="@+id/menu_item_logout"
+        android:title="Log Out"
+    />
+
+    <item
+        android:id="@+id/menu_item_bookings"
+        android:title="Bookings"
+        />
+
+    <item
+        android:id="@+id/menu_item_your_rides"
+        android:title="Your Rides"
+        />
+
+    <item
+        android:id="@+id/menu_item_history"
+        android:title="History"
+        />
+
+    <item
+        android:id="@+id/menu_item_create_ride"
+        android:title="Create Ride"
+        />
+
+</menu>
