@@ -41,11 +41,11 @@ class UserRepository(private val context:Context) {
             data[USER_REQUESTS] = newUser.requests
             data[USER_BOOKINGS] = newUser.bookings
 
-            db.collection(COLLECTION_USERS).add(data)
+            db.collection(COLLECTION_USERS).document(newUser.email).set(data)
                 .addOnSuccessListener { docRef ->
                     Log.d(
                         TAG,
-                        "SUCCESSFULLY ADDED WITH ID ${docRef.id}"
+                        "SUCCESSFULLY ADDED WITH ID $docRef"
                     )
                 }
                 .addOnFailureListener { ex ->

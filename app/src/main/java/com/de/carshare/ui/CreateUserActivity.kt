@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import com.de.carshare.R
@@ -14,6 +15,7 @@ import com.de.carshare.models.User
 import com.de.carshare.repositories.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 
+private val provinces = mutableListOf<String>("ON","BC","QC","NB","NS","PE","AB","NT","SK","MB","YT")
 class CreateUserActivity : AppCompatActivity(),OnClickListener {
     private val TAG = this.javaClass.canonicalName
     private lateinit var binding: ActivityCreateUserBinding
@@ -26,6 +28,9 @@ class CreateUserActivity : AppCompatActivity(),OnClickListener {
         this.userRepository = UserRepository(applicationContext)
         this.firebaseAuth = FirebaseAuth.getInstance()
 
+        val arrayAdapter = ArrayAdapter<String>(this,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, provinces)
+        this.binding.spinnerDlProvince.adapter = arrayAdapter
         binding.btnCreateNewUser.setOnClickListener(this)
         setContentView(binding.root)
     }
@@ -39,8 +44,7 @@ class CreateUserActivity : AppCompatActivity(),OnClickListener {
                     ValidInput(binding.etPhone) &&
                     ValidInput(binding.etEmail) &&
                     ValidInput(binding.etPassword)&&
-                    ValidInput(binding.etDlProvince) &&
-                    ValidInput(binding.etDlNumber)
+                    ValidInput(binding.etDlProvince)
                 )
                 {
                     val newUser = User(binding.etName.text.toString(),
@@ -48,7 +52,7 @@ class CreateUserActivity : AppCompatActivity(),OnClickListener {
                         binding.etPhone.text.toString(),
                         binding.etPassword.text.toString(),
                         binding.etDlProvince.text.toString(),
-                        binding.etDlNumber.text.toString())
+                        provinces[binding.spinnerDlProvince.selectedItemPosition])
 
                     this.firebaseAuth
                         .createUserWithEmailAndPassword(newUser.email, newUser.getPassword())

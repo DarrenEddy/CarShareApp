@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity(),OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
         updateMenu()
 
         requestRepository.getAllRequests()
