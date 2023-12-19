@@ -33,14 +33,14 @@ class RequestAdapter(var items: List<Request>) : RecyclerView.Adapter<RequestAda
         val tvDate = holder.itemView.findViewById<TextView>(R.id.tvDate)
 
         //TODO Change to access names from DB
-        tvDepart.setText("request.departCity")
-        tvArival.setText("request.arrivalCity")
+        tvDepart.setText(request.departCity)
+        tvArival.setText(request.arrivalCity)
 
 
 
         val sdf:SimpleDateFormat = SimpleDateFormat("MMM dd, yyyy")
 
-        tvDate.setText(sdf.format(request.departDate.time))
+        tvDate.setText(request.departDate)
 
 
 
