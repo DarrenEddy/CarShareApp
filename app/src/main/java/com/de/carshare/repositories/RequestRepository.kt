@@ -23,6 +23,7 @@ class RequestRepository(private val context:Context) {
     private val DEPART_DATE = "departDate"
     private val ARRIVAL_DATE = "arrivalDate"
     private val STOPS = "stops"
+    private val STOPS_LOCALITY = "stopsLocality"
     private val STATUS = "status"
     private val RIDERS = "riders"
 
@@ -40,6 +41,8 @@ class RequestRepository(private val context:Context) {
             data[DEPART_DATE] = newRequest.departDate
             data[ARRIVAL_DATE] = newRequest.arrivalDate
             data[STOPS] = newRequest.stops
+            data[STOPS_LOCALITY] = newRequest.stopsLocality
+
             data[STATUS] = newRequest.status
             data[RIDERS] = newRequest.riders
 

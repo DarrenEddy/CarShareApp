@@ -13,14 +13,17 @@ import android.view.View.OnClickListener
 import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+
+import androidx.core.view.updateLayoutParams
 import com.de.carshare.R
 import com.de.carshare.databinding.ActivityCreateRequestBinding
 import com.de.carshare.models.Request
 import com.de.carshare.repositories.RequestRepository
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
+
 import java.util.Calendar
-import java.util.Date
+
 import java.util.Locale
 
 class CreateRequestActivity : AppCompatActivity(), OnClickListener,OnFocusChangeListener{
@@ -28,6 +31,8 @@ class CreateRequestActivity : AppCompatActivity(), OnClickListener,OnFocusChange
     private lateinit var binding: ActivityCreateRequestBinding
     private lateinit var prefs: SharedPreferences
     private lateinit var requestRepository: RequestRepository
+    private var currentStop = 0
+    private lateinit var stops: List<EditText>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +41,15 @@ class CreateRequestActivity : AppCompatActivity(), OnClickListener,OnFocusChange
         prefs = applicationContext.getSharedPreferences(packageName, MODE_PRIVATE)
         requestRepository = RequestRepository(applicationContext)
 
-
+        stops = listOf(this.binding.etFirstStop,this.binding.etSecondStop)
         binding.btnOpenDate.setOnClickListener(this)
         binding.btnCreateNewRequest.setOnClickListener(this)
+        binding.btnAddStop.setOnClickListener(this)
+        binding.btnRemoveStop.setOnClickListener(this)
         binding.etDeparture.onFocusChangeListener = this
         binding.etArrival.onFocusChangeListener = this
+        binding.etFirstStop.onFocusChangeListener = this
+        binding.etSecondStop.onFocusChangeListener = this
         setContentView(this.binding.root)
     }
 
@@ -78,6 +87,26 @@ class CreateRequestActivity : AppCompatActivity(), OnClickListener,OnFocusChange
                 datePickerDialog.show()
             }
 
+            R.id.btnRemoveStop ->
+                {
+                    if (currentStop>=0)
+                    {
+                        removeStop()
+
+                    }
+                }
+
+            R.id.btnAddStop -> {
+
+
+                if (currentStop < stops.size)
+                {
+                    addStop()
+                }
+
+            }
+
+
             R.id.btn_create_new_request -> {
                 if (validate(this.binding.etArrival) &&
                     validate(this.binding.etDeparture)) {
@@ -98,11 +127,47 @@ class CreateRequestActivity : AppCompatActivity(), OnClickListener,OnFocusChange
                             goToMain()
                         }
                         else {
+                            // get stops, upto not including currentStop
+                            val stops = mutableListOf<String>()
+                            val stopsLocality = mutableListOf<String>()
+
+                            var stopsValid = true
+                            for (stopIndex in 0..currentStop-1)
+                            {
+                                if (this.stops[stopIndex].text.isNullOrEmpty()) {
+                                    this.stops[stopIndex].setError("Cannot Be Empty")
+                                    stopsValid = false
+                                }else{
+                                    val stopAddress = getAddress(this.stops[stopIndex].text.toString())
+                                    if (stopAddress == null)
+                                    {
+                                        stopsValid = false
+
+                                    }
+                                    else
+                                    {
+                                        stops.add(stopAddress.getAddressLine(stopAddress.maxAddressLineIndex))
+                                        stopsLocality.add(stopAddress.locality)
+                                    }
+
+                                }
+                            }
+
+                            if (stopsValid){
                             val date = (this.binding.tvDate.text.toString())
 
-                            val request = Request(departCity = dep.locality, arrivalCity = arr.locality, dep.getAddressLine(dep.maxAddressLineIndex),arr.getAddressLine(arr.maxAddressLineIndex),user,date,date)
+                            val request = Request(departCity = dep.locality,
+                                arrivalCity = arr.locality,
+                                stops = stops,
+                                stopsLocality = stopsLocality,
+                                departAddress = dep.getAddressLine(dep.maxAddressLineIndex),
+                                arrivalAddress = arr.getAddressLine(arr.maxAddressLineIndex),
+                                creator = user,
+                                arrivalDate = date,
+                                departDate = date)
                             requestRepository.addRequest(request)
                             goToMain()
+                            }
 
                         }
 
@@ -115,41 +180,89 @@ class CreateRequestActivity : AppCompatActivity(), OnClickListener,OnFocusChange
         }
     }
 
+    private fun addStop(){
+
+        val stop = stops[currentStop]
+        stop.visibility = (View.VISIBLE)
+        this.binding.btnRemoveStop.visibility = View.VISIBLE
+        
+
+        this.binding.btnAddStop.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            topToBottom = stop.id
+        }
+        currentStop++
+        if (currentStop == stops.size) {
+
+            this.binding.btnAddStop.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun removeStop()
+    {
+
+        this.binding.btnAddStop.visibility = View.VISIBLE
+
+
+        if (currentStop>1)
+        {
+
+            val stop = stops[currentStop-1]
+            stop.visibility = View.GONE
+
+            this.binding.btnAddStop.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToBottom = stops[currentStop-2].id
+            }
+        }
+        else if (currentStop == 1)
+        {
+            val stop = stops[currentStop-1]
+            stop.visibility = View.GONE
+            this.binding.btnRemoveStop.visibility = View.INVISIBLE
+            this.binding.btnAddStop.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToBottom = binding.etDeparture.id
+            }
+        }
+        currentStop--
+        if (currentStop < 0) currentStop = 0
+
+
+    }
+
     override fun onFocusChange(view: View?, isFocused: Boolean) {
         if(!isFocused)
         {
             when(view?.id){
                 R.id.et_departure -> {
-                    if (binding.etDeparture.text.isNotEmpty()){
-
-                        val address =getAddress(binding.etDeparture.text.toString())
-                        if (address == null)
-                        {
-                            binding.etDeparture.setError("Cant Find Address")
-                        }
-                        else {
-                            this.binding.etDeparture.setText(address.getAddressLine(address.maxAddressLineIndex))
-                        }
-                    }
-                    // do nothing on empty
+                        updateAddress(binding.etDeparture)
                 }
                 R.id.et_arrival -> {
-                    if (binding.etArrival.text.isNotEmpty()){
-
-                        val address =getAddress(binding.etArrival.text.toString())
-                        if (address == null)
-                        {
-                            binding.etArrival.setError("Cant Find Address")
-                        }
-                        else {
-                            this.binding.etArrival.setText(address.getAddressLine(address.maxAddressLineIndex))
-                        }
+                    updateAddress(binding.etArrival)
+                }
+                R.id.etFirstStop->
+                    {
+                        updateAddress(binding.etFirstStop)
                     }
-                    // do nothing on empty
+                R.id.etSecondStop->{
+                    updateAddress(binding.etSecondStop)
                 }
             }
         }
 
+    }
+    private fun updateAddress(etAddress:EditText)
+    {
+        if (etAddress.text.isNotEmpty()){
+
+            val address =getAddress(etAddress.text.toString())
+            if (address == null)
+            {
+                etAddress.setError("Cant Find Address")
+            }
+            else {
+                etAddress.setText(address.getAddressLine(address.maxAddressLineIndex))
+            }
+        }
+        // do nothing on empty
     }
 
     private fun goToMain() {

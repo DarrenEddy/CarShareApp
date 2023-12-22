@@ -95,7 +95,6 @@ class MainActivity : AppCompatActivity(),OnClickListener {
 
         return when (item.itemId) {
             R.id.menu_item_login -> {
-                Toast.makeText(this, "login", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 return true

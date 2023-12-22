@@ -31,10 +31,19 @@ class RequestAdapter(var items: List<Request>) : RecyclerView.Adapter<RequestAda
         val tvDepart = holder.itemView.findViewById<TextView>(R.id.tvDepart)
         val tvArival = holder.itemView.findViewById<TextView>(R.id.tvArrival)
         val tvDate = holder.itemView.findViewById<TextView>(R.id.tvDate)
+        val connector = holder.itemView.findViewById<TextView>(R.id.tvDepartArrivalConnector)
 
-        //TODO Change to access names from DB
         tvDepart.setText(request.departCity)
         tvArival.setText(request.arrivalCity)
+
+        if (request.stops.isEmpty())
+        {
+            connector.setText("->")
+        }
+        else
+        {
+            connector.setText("...")
+        }
 
 
 

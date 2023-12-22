@@ -17,26 +17,6 @@
         app:layout_constraintTop_toTopOf="@+id/et_departure"
         app:layout_constraintVertical_bias="0.461" />
 
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/arrival"
-        app:layout_constraintBottom_toBottomOf="@+id/et_arrival"
-        app:layout_constraintEnd_toEndOf="@+id/textView19"
-        app:layout_constraintTop_toTopOf="@+id/et_arrival" />
-
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:text="@string/date_of_travel"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_open_date"
-        app:layout_constraintEnd_toEndOf="@+id/textView21"
-        app:layout_constraintTop_toTopOf="@+id/btn_open_date" />
-
 
     <EditText
         android:id="@+id/et_departure"
@@ -51,18 +31,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
         android:id="@+id/et_arrival"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/arrival_city"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="@+id/et_departure"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddStop"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/et_departure"
-        app:layout_constraintTop_toBottomOf="@+id/et_departure" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddStop" />
 
+    <TextView
+        android:id="@+id/tvSecondStop0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_of_travel"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_open_date"
+        app:layout_constraintEnd_toEndOf="@+id/tvSecondStop1"
+        app:layout_constraintTop_toTopOf="@+id/btn_open_date" />
+
+    <TextView
+        android:id="@+id/tvSecondStop1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arrival"
+        app:layout_constraintBottom_toBottomOf="@+id/et_arrival"
+        app:layout_constraintEnd_toEndOf="@+id/textView19"
+        app:layout_constraintTop_toTopOf="@+id/et_arrival"
+        app:layout_constraintVertical_bias="0.653" />
+
+    <Button
+        android:id="@+id/btn_open_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/date"
+        app:layout_constraintEnd_toEndOf="@+id/et_arrival"
+        app:layout_constraintTop_toBottomOf="@+id/et_arrival" />
 
     <Button
         android:id="@+id/btn_create_new_request"
@@ -78,7 +88,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/tvSecondStop2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plan_your_next_carpool"
@@ -88,15 +98,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_open_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/date"
-        app:layout_constraintEnd_toEndOf="@+id/et_arrival"
-        app:layout_constraintTop_toBottomOf="@+id/et_arrival" />
-
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
@@ -105,4 +106,54 @@
         app:layout_constraintBottom_toBottomOf="@+id/btn_open_date"
         app:layout_constraintStart_toStartOf="@+id/et_arrival"
         app:layout_constraintTop_toTopOf="@+id/btn_open_date" />
+
+    <Button
+        android:id="@+id/btnAddStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Add Stop"
+        app:layout_constraintEnd_toEndOf="@+id/et_departure"
+        app:layout_constraintTop_toBottomOf="@+id/et_departure" />
+
+    <EditText
+        android:id="@+id/etFirstStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="First Stop"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/et_departure"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/et_departure"
+        app:layout_constraintTop_toBottomOf="@+id/et_departure" />
+
+    <EditText
+        android:id="@+id/etSecondStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Second Stop"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/etFirstStop"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etFirstStop"
+        app:layout_constraintTop_toBottomOf="@+id/etFirstStop" />
+
+    <Button
+        android:id="@+id/btnRemoveStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="Remove"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddStop"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddStop"
+        app:layout_constraintStart_toStartOf="@+id/et_departure"
+        tools:visibility="invisible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

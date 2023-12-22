@@ -15,6 +15,7 @@ class Request(val departCity:String ="",
               var arrivalDate: String ="",
               val id: String = UUID.randomUUID().toString(),
               val stops:MutableList<String> = mutableListOf(),
+              val stopsLocality:MutableList<String> = mutableListOf(),
               val status:STATUS =  STATUS.PENDING,
               val riders:MutableList<String> = mutableListOf()
 )
